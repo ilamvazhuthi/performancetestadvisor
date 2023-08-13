@@ -21,7 +21,7 @@ The Performance Load Modeling Tool aids testers and developers in planning and e
 4. Review recommendations and suggested tools for a comprehensive performance test.
 
 ## Hosted Version
-https://github.com/ilamvazhuthi/performancetestadvisor
+https://ilamvazhuthi.github.io/performancetestadvisor/
 
 ## Future Improvements
 - Email subscription feature for news and updates.
