@@ -93,6 +93,12 @@
         </div>
 
         <button onclick="downloadContent()">Download as PDF</button>
+ <div class="section">
+            <h2>JMeter Aggregate Report Analysis</h2>
+            <input type="file" id="csvInput">
+            <button onclick="generateReport()">Generate Report</button>
+            <canvas id="aggregateReportChart" style="margin-top: 20px;"></canvas>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -215,6 +221,77 @@
             };
 
             pdfMake.createPdf(docDefinition).download('performance-load-model.pdf');
+        }
+    </script>
+    <script>
+        let aggregateChart;
+
+        function generateReport() {
+            const csvInput = document.getElementById("csvInput");
+            const file = csvInput.files[0];
+
+            if (!file) {
+                alert('Please select a JMeter Aggregate report CSV file first.');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const csv = event.target.result;
+                const lines = csv.split("\n");
+                const labels = [];
+                const data = [];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const tokens = lines[i].split(",");
+                    if (tokens[0] && tokens[1]) {
+                        labels.push(tokens[0]);
+                        data.push(parseFloat(tokens[1]));
+                    }
+                }
+
+                const ctx = document.getElementById('aggregateReportChart').getContext('2d');
+                
+                if (aggregateChart) {
+                    aggregateChart.destroy();
+                }
+
+                aggregateChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Avg Response Time (ms)',
+                            data: data,
+                            backgroundColor: 'rgba(76, 81, 191, 0.2)',
+                            borderColor: '#4c51bf',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Endpoint/Label'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Average Response Time (ms)'
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+            
+            reader.readAsText(file);
         }
     </script>
 </body>
