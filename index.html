@@ -49,6 +49,16 @@
         button:hover {
             background-color: #38a169;
         }
+
+        #graphExplanation {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #formulaSection {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -64,22 +74,30 @@
 
         <button onclick="calculate()">Calculate</button>
 
-        <!-- Canvas for the ramp-up chart right below the button -->
         <canvas id="rampUpChart" style="margin-top: 20px;"></canvas>
 
-        <div class="section">
-            <strong>Formulas:</strong>
-            <p>Step-up VUs every 1 second: <span id="vusIncreasePer1Second">-</span> VUs</p>
-            <p>Step-up VUs every 10 seconds: <span id="vusIncreasePer10Seconds">-</span> VUs</p>
-            <p>Step-up VUs every 30 seconds: <span id="vusIncreasePer30Seconds">-</span> VUs</p>
-            <p>Step-up VUs every 60 seconds: <span id="vusIncreasePer60Seconds">-</span> VUs</p>
-            <p>Step-up VUs every <span id="customSecondsDisplay">-</span> seconds: <span id="vusIncreasePerCustomSeconds">-</span> VUs</p>
+        <div id="graphExplanation">
+            <strong>Graph Explanation:</strong>
+            <p>The graph represents the ramp-up of virtual users (VUs) over time. The VUs increase steadily during the ramp-up time, remain constant during the peak time, and then decrease during the step-down time. This visualization helps in understanding the distribution of users during a load test.</p>
         </div>
+
+        <div id="formulaSection">
+            <strong>Formulas:</strong>
+            <ul>
+                <li id="formula1"></li>
+                <li id="formula2"></li>
+                <li id="formula3"></li>
+                <li id="formula4"></li>
+                <li id="formulaCustom"></li>
+            </ul>
+        </div>
+
+        <button onclick="downloadContent()">Download as PDF</button>
     </div>
-       <footer>
-            Developed by <a href="https://www.linkedin.com/in/ilamvazhuthi-mathivanan-17588741/">Ilamvazhuthi Mathivanan</a>. Check the source code on <a href="https://github.com/ilamvazhuthi">GitHub</a>. Follow on <a href="https://twitter.com/ilamvazhuthim">Twitter</a>.
-        </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
 
     <script>
         let myChart;
@@ -91,15 +109,6 @@
             const usersPerHour = usersPerDay / 24;
             const vusIncreasePerSecond = usersPerHour / 3600;
 
-            document.getElementById("vusIncreasePer1Second").textContent = Math.round(vusIncreasePerSecond);
-            document.getElementById("vusIncreasePer10Seconds").textContent = Math.round(vusIncreasePerSecond * 10);
-            document.getElementById("vusIncreasePer30Seconds").textContent = Math.round(vusIncreasePerSecond * 30);
-            document.getElementById("vusIncreasePer60Seconds").textContent = Math.round(vusIncreasePerSecond * 60);
-
-            document.getElementById("customSecondsDisplay").textContent = customSeconds;
-            document.getElementById("vusIncreasePerCustomSeconds").textContent = Math.round(vusIncreasePerSecond * customSeconds);
-
-            // Chart.js logic to plot the ramp-up and step-down data
             const ctx = document.getElementById('rampUpChart').getContext('2d');
 
             if (myChart) {
@@ -122,33 +131,90 @@
                 data: {
                     labels: timeLabels,
                     datasets: [{
-                        label: 'Number of VUs',
+                        label: 'VUs over time',
                         data: data,
-                        borderColor: '#48bb78',
-                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
-                        borderWidth: 1,
-                        pointRadius: 0
+                        borderColor: '#4c51bf',
+                        backgroundColor: 'rgba(76, 81, 191, 0.2)',
+                        borderWidth: 0.5
                     }]
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         x: {
-                            beginAtZero: true,
+                            type: 'linear',
+                            position: 'bottom',
                             title: {
                                 display: true,
                                 text: 'Time (seconds)'
                             }
                         },
                         y: {
-                            beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Number of VUs'
+                                text: 'Virtual Users (VUs)'
                             }
                         }
                     }
                 }
             });
+
+            document.getElementById("formula1").textContent = `Step-up VUs every 1 second: ${Math.round(vusIncreasePerSecond)} VUs`;
+            document.getElementById("formula2").textContent = `Step-up VUs every 10 seconds: ${Math.round(vusIncreasePerSecond * 10)} VUs`;
+            document.getElementById("formula3").textContent = `Step-up VUs every 30 seconds: ${Math.round(vusIncreasePerSecond * 30)} VUs`;
+            document.getElementById("formula4").textContent = `Step-up VUs every 60 seconds: ${Math.round(vusIncreasePerSecond * 60)} VUs`;
+            document.getElementById("formulaCustom").textContent = `Step-up VUs every ${customSeconds} seconds: ${Math.round(vusIncreasePerSecond * customSeconds)} VUs`;
+
+            document.getElementById('graphExplanation').style.display = 'block';
+            document.getElementById('formulaSection').style.display = 'block';
+        }
+
+        function downloadContent() {
+            const canvas = document.getElementById('rampUpChart');
+            const imgData = canvas.toDataURL('image/png');
+
+            const docDefinition = {
+                content: [{
+                    image: imgData,
+                    width: 500
+                }, {
+                    text: 'Formulas:',
+                    fontSize: 12,
+                    bold: true,
+                    margin: [0, 20, 0, 10]
+                }, {
+                    text: document.getElementById("formula1").textContent,
+                    fontSize: 12,
+                    margin: [0, 5]
+                }, {
+                    text: document.getElementById("formula2").textContent,
+                    fontSize: 12,
+                    margin: [0, 5]
+                }, {
+                    text: document.getElementById("formula3").textContent,
+                    fontSize: 12,
+                    margin: [0, 5]
+                }, {
+                    text: document.getElementById("formula4").textContent,
+                    fontSize: 12,
+                    margin: [0, 5]
+                }, {
+                    text: document.getElementById("formulaCustom").textContent,
+                    fontSize: 12,
+                    margin: [0, 5]
+                }, {
+                    text: '\nGraph Explanation:',
+                    fontSize: 12,
+                    bold: true,
+                    margin: [0, 20, 0, 10]
+                }, {
+                    text: 'The graph represents the ramp-up of virtual users (VUs) over time. The VUs increase steadily during the ramp-up time, remain constant during the peak time, and then decrease during the step-down time. This visualization helps in understanding the distribution of users during a load test.',
+                    fontSize: 12,
+                    margin: [0, 5]
+                }]
+            };
+
+            pdfMake.createPdf(docDefinition).download('performance-load-model.pdf');
         }
     </script>
 </body>
