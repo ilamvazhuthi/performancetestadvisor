@@ -59,12 +59,39 @@
             display: none;
             margin-top: 20px;
         }
+/* Additional Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e2e8f0;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h2>Performance Load Modeling Tool</h2>
+<div>
+        <p>The "Performance Load Modeling Tool" is designed to assist testers and developers in understanding and visualizing the performance load characteristics of an application. Here's what this tool offers:</p>
+        <ul>
+            <li><strong>Load Distribution Visualization:</strong> By inputting the total number of users expected per day and the desired ramp-up time, this tool provides a graph that showcases how virtual users (VUs) increase over a period of time. This helps in understanding how the load is distributed during testing.</li>
+            <li><strong>Formulas:</strong> The tool provides dynamic formulas that change based on the user input, providing insights into the number of VUs that step up every second, 10 seconds, 30 seconds, 60 seconds, and during custom-defined intervals.</li>
+            <li><strong>JMeter Aggregate Report Analysis:</strong> This section enables users to upload JMeter aggregate report CSV files to obtain a visual representation of the average response times for different endpoints or labels.</li>
+            <li><strong>Performance Degradation Analysis:</strong> By comparing the average response times of an existing application to the response times when a new feature is added, the tool calculates the percentage degradation. This data is vital in understanding how new features might affect the application's performance. Furthermore, intuitive labels provide immediate feedback on whether performance has improved or requires attention.</li>
+            <li><strong>Download Feature:</strong> Users can conveniently download the graph visualization along with the formulas as a PDF, making it easy to share or document the results.</li>
+        </ul>
+        
+    </div>
 
         <label for="usersPerDay">Total Number of Users per Day:</label>
         <input type="number" id="usersPerDay" placeholder="Enter total users per day">
@@ -99,6 +126,31 @@
             <button onclick="generateReport()">Generate Report</button>
             <canvas id="aggregateReportChart" style="margin-top: 20px;"></canvas>
         </div>
+<div class="section">
+    <h2>Performance Degradation Analysis</h2>
+    
+    <label for="avgExistingApp">Average Response Time for Existing Application (ms):</label>
+    <input type="number" id="avgExistingApp">
+
+    <label for="avgNewFeature">Average Response Time for Existing Application with New Feature (ms):</label>
+    <input type="number" id="avgNewFeature">
+
+    <button onclick="generateDegradationTable()">Analyze Performance Degradation</button>
+</div>
+<table id="resultsTable" style="display:none; border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid black;">Performance Test Type</th>
+            <th style="border: 1px solid black;">Average Response Time (ms)</th>
+            <th style="border: 1px solid black;">% Degradation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Rows will be appended dynamically -->
+    </tbody>
+</table>
+<p id="performanceMessage" style="font-weight: bold;"></p>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -294,6 +346,62 @@
             reader.readAsText(file);
         }
     </script>
+<!-- Begin of the new feature integration -->
+<script>
+    
+    function generateDegradationTable() {
+    const avgExisting = parseFloat(document.getElementById('avgExistingApp').value);
+    const avgNewFeature = parseFloat(document.getElementById('avgNewFeature').value);
+
+    // Check if the values are valid numbers
+    if (isNaN(avgExisting) || isNaN(avgNewFeature)) {
+        alert('Please provide valid average response times.');
+        return;
+    }
+
+    const degradation = ((avgNewFeature - avgExisting) / avgExisting) * 100;
+
+    const tbody = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = ''; // Clear the table body
+
+    // Add the existing app data
+    const row1 = tbody.insertRow();
+    row1.insertCell().innerText = "Existing Application";
+    row1.insertCell().innerText = avgExisting;
+    row1.insertCell().innerText = ''; // No degradation for the existing app
+
+    // Add the new feature data
+    const row2 = tbody.insertRow();
+    row2.insertCell().innerText = "Existing Application with New Feature";
+    row2.insertCell().innerText = avgNewFeature;
+    let degradationCell = row2.insertCell();
+    degradationCell.innerText = degradation.toFixed(2) + '%';
+
+    // Style the cells
+    Array.from(tbody.getElementsByTagName('td')).forEach(cell => {
+        cell.style.border = '1px solid black';
+    });
+
+    // Check the performance and display the message accordingly
+    const messageElem = document.getElementById('performanceMessage');
+    if (degradation < 0) {
+        messageElem.style.color = 'green';
+        messageElem.innerText = `Performance improved by ${Math.abs(degradation.toFixed(2))}%.`;
+    } else {
+        degradationCell.style.color = 'red';
+        messageElem.style.color = 'red';
+        messageElem.innerText = 'Performance needs to be improved for the new feature.';
+    }
+
+    // Display the results table
+    document.getElementById('resultsTable').style.display = '';
+}
+
+
+</script>
+<footer style="margin-top: 20px; text-align: center;">
+    Developed by Ilamvazhuthi Mathivanan
+</footer>
 </body>
 
 </html>
