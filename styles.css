@@ -1,0 +1,70 @@
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 40px;
+            background-color: #f0f3f4;
+            color: #333;
+        }
+
+        h2 {
+            color: #2d3748;
+        }
+
+        .container {
+            background-color: #e2e8f0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #48bb78;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #38a169;
+        }
+
+        #graphExplanation {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #formulaSection {
+            display: none;
+            margin-top: 20px;
+        }
+/* Additional Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e2e8f0;
+        }
+    
