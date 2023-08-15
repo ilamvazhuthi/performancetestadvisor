@@ -23,6 +23,31 @@ The Performance Load Modeling Tool aids testers and developers in planning and e
 ## Hosted Version
 https://ilamvazhuthi.github.io/performancetestadvisor/
 
+# Static Website Docker Container
+
+This repository provides a Dockerized setup for a static website using Nginx.
+
+## Prerequisites
+
+- Ensure you have Docker installed on your machine.
+
+## Usage
+
+1. Navigate to the directory containing your `Dockerfile`, `index.html`, `styles.css`, and `scripts.js`.
+2. Build the Docker image using the following command:
+   ```bash
+   docker build -t my-static-website .
+   ```
+3. Once built, you can run the container with:
+   ```bash
+   docker run -d -p 80:80 my-static-website
+   ```
+4. You should then be able to access the website at [http://localhost](http://localhost).
+
+## Pushing to Docker Registry
+
+If you want to push the Docker image to a Docker registry (like Docker Hub), ensure you tag the image appropriately and then use the `docker push` command.
+
 ## Future Improvements
 - Email subscription feature for news and updates.
 
