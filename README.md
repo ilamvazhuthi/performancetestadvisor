@@ -21,6 +21,27 @@ The Performance Load Modeling Tool aids testers and developers in planning and e
 3. View the ramp-up strategy in the "Formulas" section.
 4. Review recommendations and suggested tools for a comprehensive performance test.
 
+
+## Predictive Analysis Tool (AI-powered)
+
+### Overview
+The Predictive Analysis Tool uses AI to generate predictions based on historical user data. By uploading historical data in CSV format, the tool can simulate and visualize predicted user growth for the next 90 days.
+
+### Features
+- **User Input**: Allows users to upload a CSV file containing historical data with columns named 'date' and 'users'.
+- **Visualization**: Displays a line chart showing historical data along with predicted user growth.
+
+### How to Use
+1. Navigate to the Predictive Analysis page.
+2. Upload your CSV file containing historical user data.
+3. Click on "Generate Predictions".
+4. View the line chart showing historical and predicted user growth.
+
+### Notes
+- Ensure your CSV file has columns named 'date' (in 'YYYY-MM-DD' format) and 'users' (integer values).
+- The prediction is based on a mock linear regression model for demonstration purposes.
+
+
 ## Hosted Version
 https://ilamvazhuthi.github.io/performancetestadvisor/
 
