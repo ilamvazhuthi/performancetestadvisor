@@ -5,7 +5,8 @@
 ## Overview
 The Performance Load Modeling Tool aids testers and developers in planning and executing performance tests. By inputting the expected daily user traffic, this tool calculates the recommended Virtual User (VU) ramp-up strategy, simulating real-world usage patterns. The tool also provides recommendations and suggested open-source tools for conducting performance tests.
 
-![image](https://github.com/ilamvazhuthi/performancetestadvisor/assets/17743299/3ed79537-585b-4332-9783-51362b330de1)
+![image](https://github.com/ilamvazhuthi/performancetestadvisor/assets/17743299/aa0033b4-07df-468c-b96b-d54689617088)
+
 
 
 ## Features
