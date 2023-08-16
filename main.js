@@ -239,3 +239,11 @@
 
 
 
+
+function openModal() {
+    document.getElementById('predictionModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('predictionModal').style.display = 'none';
+}
