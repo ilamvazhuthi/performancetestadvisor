@@ -1,28 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictive Analysis Tool</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Include the Plotly.js library -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>Predictive Analysis Tool</h1>
-        <p>Upload historical data (in CSV format) to generate predictions.</p>
-
-        <div>
-            <input type="file" id="historicalDataInput">
-            <button onclick="generatePredictions()">Generate Predictions</button>
-        </div>
-
-        <!-- Adjusted visualization container for Plotly -->
-        <div id="predictionChart"></div>
-
-    </div>
-    <script src="prediction.js"></script>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Predictive Analysis Tool - Generate Forecasts from Historical Data
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+  <!-- Include the Plotly.js library -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js">
+  </script>
+  <meta content="Use the Predictive Analysis Tool to upload historical data in CSV format and generate accurate forecasts. Visualize predictions with interactive charts." name="description"/>
+  <meta content="predictive analysis, historical data, CSV upload, data visualization, interactive charts, forecasts" name="keywords"/>
+ </head>
+ <body>
+  <div class="container">
+   <h1>
+    Predictive Analysis Tool
+   </h1>
+   <p>
+    Upload historical data (in CSV format) to generate predictions.
+   </p>
+   <div>
+    <input id="historicalDataInput" type="file"/>
+    <button onclick="generatePredictions()">
+     Generate Predictions
+    </button>
+   </div>
+   <!-- Adjusted visualization container for Plotly -->
+   <div id="predictionChart">
+   </div>
+  </div>
+  <script src="prediction.js">
+  </script>
+ </body>
 </html>
