@@ -3,9 +3,10 @@
 FROM nginx:alpine
 
 # Copy the static content to the Nginx web directory
-COPY index.html /usr/share/nginx/html/
-COPY styles.css /usr/share/nginx/html/
-COPY scripts.js /usr/share/nginx/html/
+COPY *.html /usr/share/nginx/html/
+COPY css /usr/share/nginx/html/css
+COPY scripts /usr/share/nginx/html/scripts
+COPY resources /usr/share/nginx/html/resources
 
 # Expose port 80 (default HTTP port)
 EXPOSE 80

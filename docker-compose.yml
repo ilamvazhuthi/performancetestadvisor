@@ -1,0 +1,8 @@
+version: '3'
+services:
+  perftestadvisor:
+    build: .
+    ports:  
+      - 8888:80
+    volumes:
+      - .:/usr/share/nginx/html/

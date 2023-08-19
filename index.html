@@ -1,198 +1,227 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>
-   Performance Load Modeling Tool - Visualize &amp; Analyze Load Distribution
-  </title>
-<link href="styles.css" rel="stylesheet"/>
-<meta content="Performance Load Modeling Tool provides visualization and analysis of load distribution, JMeter report analysis, and performance degradation insights." name="description"/>
-<meta content="load modeling, performance testing, JMeter report, virtual users, performance degradation, load distribution visualization" name="keywords"/>
-</head>
-<body>
-<div class="container">
-<h2>
-    Performance Load Modeling Tool
-   </h2>
-<div>
-<p>
-     The "Performance Load Modeling Tool" is designed to assist testers and developers in understanding and visualizing the performance load characteristics of an application. Here's what this tool offers:
-    </p>
-<ul>
-<li>
-<strong>
-       Load Distribution Visualization:
-      </strong>
-      By inputting the total number of users expected per day and the desired ramp-up time, this tool provides a graph that showcases how virtual users (VUs) increase over a period of time. This helps in understanding how the load is distributed during testing.
-     </li>
-<li>
-<strong>
-       Formulas:
-      </strong>
-      The tool provides dynamic formulas that change based on the user input, providing insights into the number of VUs that step up every second, 10 seconds, 30 seconds, 60 seconds, and during custom-defined intervals.
-     </li>
-<li>
-<strong>
-       JMeter Aggregate Report Analysis:
-      </strong>
-      This section enables users to upload JMeter aggregate report CSV files to obtain a visual representation of the average response times for different endpoints or labels.
-     </li>
-<li>
-<strong>
-       Performance Degradation Analysis:
-      </strong>
-      By comparing the average response times of an existing application to the response times when a new feature is added, the tool calculates the percentage degradation. This data is vital in understanding how new features might affect the application's performance. Furthermore, intuitive labels provide immediate feedback on whether performance has improved or requires attention.
-     </li>
-<li>
-<strong>
-       Download Feature:
-      </strong>
-      Users can conveniently download the graph visualization along with the formulas as a PDF, making it easy to share or document the results.
-     </li>
-</ul>
-</div>
-<label for="usersPerDay">
-    Total Number of Users per Day:
-   </label>
-<input id="usersPerDay" placeholder="Enter total users per day" type="number"/>
-<label for="customSeconds">
-    Custom Ramp-Up Time (seconds):
-   </label>
-<input id="customSeconds" placeholder="Enter custom seconds" type="number"/>
-<button onclick="calculate()">
-    Calculate
-   </button>
-<canvas id="rampUpChart" style="margin-top: 20px;">
-</canvas>
-<div id="graphExplanation">
-<strong>
-     Graph Explanation:
-    </strong>
-<p>
-     The graph represents the ramp-up of virtual users (VUs) over time. The VUs increase steadily during the ramp-up time, remain constant during the peak time, and then decrease during the step-down time. This visualization helps in understanding the distribution of users during a load test.
-    </p>
-</div>
-<div id="formulaSection">
-<strong>
-     Formulas:
-    </strong>
-<ul>
-<li id="formula1">
-</li>
-<li id="formula2">
-</li>
-<li id="formula3">
-</li>
-<li id="formula4">
-</li>
-<li id="formulaCustom">
-</li>
-</ul>
-</div>
-<button onclick="downloadContent()">
-    Download as PDF
-   </button>
-<div class="section">
-<h2>
-     JMeter Aggregate Report Analysis
-    </h2>
-<input id="csvInput" type="file"/>
-<button onclick="generateReport()">
-     Generate Report
-    </button>
-<canvas id="aggregateReportChart" style="margin-top: 20px;">
-</canvas>
-</div>
-<div class="section">
-<h2>
-     Performance Degradation Analysis
-    </h2>
-<label for="avgExistingApp">
-     Average Response Time for Existing Application (ms):
-    </label>
-<input id="avgExistingApp" type="number"/>
-<label for="avgNewFeature">
-     Average Response Time for Existing Application with New Feature (ms):
-    </label>
-<input id="avgNewFeature" type="number"/>
-<button onclick="generateDegradationTable()">
-     Analyze Performance Degradation
-    </button>
-</div>
-<table id="resultsTable" style="display:none; border-collapse: collapse; width: 100%;">
-<thead>
-<tr>
-<th style="border: 1px solid black;">
-       Performance Test Type
-      </th>
-<th style="border: 1px solid black;">
-       Average Response Time (ms)
-      </th>
-<th style="border: 1px solid black;">
-       % Degradation
-      </th>
-</tr>
-</thead>
-<tbody>
-<!-- Rows will be appended dynamically -->
-</tbody>
-</table>
-<p id="performanceMessage" style="font-weight: bold;">
-</p>
-</div>
-<div class="section">
-<a href="javascript:void(0);" onclick="openModal()">
-    Go to Predictive Analysis Tool
-   </a>
-</div>
-<!-- Begin of the new feature integration -->
-<div class="modal" id="predictionModal">
-<div class="modal-content">
-<span class="close-button" onclick="closeModal()">×</span>
-<body>
-<div class="container">
-<h1>
-    Predictive Analysis Tool
-   </h1>
-<p>
-    Upload historical data (in CSV format) to generate predictions.
-   </p>
-<div>
-<input id="historicalDataInput" type="file"/>
-<button onclick="generatePredictions()">
-     Generate Predictions
-    </button>
-</div>
-<!-- Adjusted visualization container for Plotly -->
-<div id="predictionChart">
-</div>
-</div>
-</body>
-</div>
-</div>
-<footer style="margin-top: 20px; text-align: center;">
-   Developed by Ilamvazhuthi Mathivanan
-  </footer>
-<script src="https://cdn.jsdelivr.net/npm/chart.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js">
-</script>
-<script src="main.js">
-</script>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KQVMD4QVF8">
-</script>
-<script>
-   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-KQVMD4QVF8');
-  </script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script><script src="prediction.js">
-</script></body>
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>
+        Performance Load Modeling Tool - Visualize &amp; Analyze Load Distribution
+    </title>
+    <link href="./css/styles.css" rel="stylesheet" />
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/prediction.js"></script>
+    <meta
+        content="Performance Load Modeling Tool provides visualization and analysis of load distribution, JMeter report analysis, and performance degradation insights."
+        name="description" />
+    <meta
+        content="load modeling, performance testing, JMeter report, virtual users, performance degradation, load distribution visualization"
+        name="keywords" />
+</head>
+
+<body>
+    <div class="container">
+        <h2>
+            Performance Load Modeling Tool
+        </h2>
+        <div>
+            <p>
+                The "Performance Load Modeling Tool" is designed to assist testers and developers in understanding and
+                visualizing the performance load characteristics of an application. Here's what this tool offers:
+            </p>
+            <ul>
+                <li>
+                    <strong>
+                        Load Distribution Visualization:
+                    </strong>
+                    By inputting the total number of users expected per day and the desired ramp-up time, this tool
+                    provides a graph that showcases how virtual users (VUs) increase over a period of time. This helps
+                    in understanding how the load is distributed during testing.
+                </li>
+                <li>
+                    <strong>
+                        Formulas:
+                    </strong>
+                    The tool provides dynamic formulas that change based on the user input, providing insights into the
+                    number of VUs that step up every second, 10 seconds, 30 seconds, 60 seconds, and during
+                    custom-defined intervals.
+                </li>
+                <li>
+                    <strong>
+                        JMeter Aggregate Report Analysis:
+                    </strong>
+                    This section enables users to upload JMeter aggregate report CSV files to obtain a visual
+                    representation of the average response times for different endpoints or labels.
+                </li>
+                <li>
+                    <strong>
+                        Performance Degradation Analysis:
+                    </strong>
+                    By comparing the average response times of an existing application to the response times when a new
+                    feature is added, the tool calculates the percentage degradation. This data is vital in
+                    understanding how new features might affect the application's performance. Furthermore, intuitive
+                    labels provide immediate feedback on whether performance has improved or requires attention.
+                </li>
+                <li>
+                    <strong>
+                        Download Feature:
+                    </strong>
+                    Users can conveniently download the graph visualization along with the formulas as a PDF, making it
+                    easy to share or document the results.
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="section form">
+                <label for="usersPerDay">
+                    Total Number of Users per Day:
+                </label>
+                <input id="usersPerDay" placeholder="Enter total users per day" type="number" />
+                <label for="customSeconds">
+                    Custom Ramp-Up Time (seconds):
+                </label>
+                <input id="customSeconds" placeholder="Enter custom seconds" type="number" />
+                <button onclick="calculate()">
+                    Calculate
+                </button>
+                <canvas id="rampUpChart" style="margin-top: 20px;">
+                </canvas>
+                <div id="graphExplanation">
+                    <strong>
+                        Graph Explanation:
+                    </strong>
+                    <p>
+                        The graph represents the ramp-up of virtual users (VUs) over time. The VUs increase steadily
+                        during the
+                        ramp-up time, remain constant during the peak time, and then decrease during the step-down time.
+                        This
+                        visualization helps in understanding the distribution of users during a load test.
+                    </p>
+                </div>
+                <div id="formulaSection">
+                    <strong>
+                        Formulas:
+                    </strong>
+                    <ul>
+                        <li id="formula1">
+                        </li>
+                        <li id="formula2">
+                        </li>
+                        <li id="formula3">
+                        </li>
+                        <li id="formula4">
+                        </li>
+                        <li id="formulaCustom">
+                        </li>
+                    </ul>
+                </div>
+                <button onclick="downloadContent()">
+                    Download as PDF
+                </button>
+            </div>
+            <div class="section form">
+                <h2>
+                    JMeter Aggregate Report Analysis
+                </h2>
+                <input id="csvInput" type="file" />
+                <button onclick="generateReport()">
+                    Generate Report
+                </button>
+                <canvas id="aggregateReportChart" style="margin-top: 20px;">
+                </canvas>
+            </div>
+            <div class="section form">
+                <h2>
+                    Performance Degradation Analysis
+                </h2>
+                <label for="avgExistingApp">
+                    Average Response Time for Existing Application (ms):
+                </label>
+                <input id="avgExistingApp" type="number" />
+                <label for="avgNewFeature">
+                    Average Response Time for Existing Application with New Feature (ms):
+                </label>
+                <input id="avgNewFeature" type="number" />
+                <button onclick="generateDegradationTable()">
+                    Analyze Performance Degradation
+                </button>
+            </div>
+        </div>
+        <table id="resultsTable" style="display:none; border-collapse: collapse; width: 100%;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black;">
+                        Performance Test Type
+                    </th>
+                    <th style="border: 1px solid black;">
+                        Average Response Time (ms)
+                    </th>
+                    <th style="border: 1px solid black;">
+                        % Degradation
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be appended dynamically -->
+            </tbody>
+        </table>
+        <p id="performanceMessage" style="font-weight: bold;">
+        </p>
+    </div>
+    <div class="section">
+        <a href="javascript:void(0);" onclick="openModal()">
+            Go to Predictive Analysis Tool
+        </a>
+    </div>
+    <!-- Begin of the new feature integration -->
+    <div class="modal" id="predictionModal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">×</span>
+
+            <body>
+                <div class="container">
+                    <div class="section form">
+                        <h2>
+                            Predictive Analysis Tool
+                        </h2>
+                        <p>
+                            Upload historical data (in CSV format) to generate predictions.
+                        </p>
+                        <div>
+                            <input id="historicalDataInput" type="file" />
+                            <button onclick="generatePredictions()">
+                                Generate Predictions
+                            </button>
+                        </div>
+                        <!-- Adjusted visualization container for Plotly -->
+
+                    </div>
+                    <div id="predictionChart"></div>
+                </div>
+            </body>
+        </div>
+    </div>
+    <footer style="margin-top: 20px; text-align: center;">
+        Developed by Ilamvazhuthi Mathivanan
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js">
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KQVMD4QVF8">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-KQVMD4QVF8');
+    </script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+
 </html>
